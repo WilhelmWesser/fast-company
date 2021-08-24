@@ -10,7 +10,26 @@ const Users = () => {
     ));
   };
 
-  const deleteHandle = (id) => {};
+  const handleDeletion = (id) => {
+    users.splice(
+      users.findIndex((user) => user._id === id),
+      1
+    );
+    setUsers(users);
+    setQuantity(users.length);
+  };
+
+  const handleDeletionWordRules = (length) => {
+    const transformed = String(length);
+    return transformed[transformed.length - 1] > "1" &&
+      transformed[transformed.length - 1] <= "4" &&
+      length !== 14 &&
+      length !== 13 &&
+      length !== 12 &&
+      length !== 11
+      ? `${length} человека тусанут с тобой сегодня`
+      : `${length} человек тусанет с тобой сегодня`;
+  };
 
   const renderTableUsers = (users) => {
     return users.map((user) => (
@@ -22,7 +41,7 @@ const Users = () => {
         <td>{user.rate}/5</td>
         <td>
           <button
-            onClick={() => deleteHandle(user._id)}
+            onClick={() => handleDeletion(user._id)}
             type="button"
             className="btn btn-danger"
           >
@@ -32,11 +51,18 @@ const Users = () => {
       </tr>
     ));
   };
-  return (
+  return users.length === 0 ? (
+    <React.Fragment>
+      {" "}
+      <h2>
+        <span className="badge bg-danger">Никто с тобой не тусанёт</span>
+      </h2>
+    </React.Fragment>
+  ) : (
     <React.Fragment>
       <h2>
         <span className="badge bg-primary">
-          {quantity} человек тусанут с тобой сегодня
+          {handleDeletionWordRules(quantity)}
         </span>
       </h2>
       <table className="table">
