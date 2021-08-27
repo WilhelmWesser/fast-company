@@ -5,6 +5,13 @@ import API from "../API";
 
 const App = () => {
   const [usersToPerform, setUsersToPerform] = useState(API.users.fetchAll());
+  const [totalLength, setTotalLength] = useState(usersToPerform.length);
+
+  const handleDelete = (userId) => {
+    const newUsers = usersToPerform.filter((user) => user._id !== userId);
+    setUsersToPerform(newUsers);
+    setTotalLength(newUsers.length);
+  };
 
   const handleDeletionWordRules = (peopleQuantity) => {
     const transformed = String(peopleQuantity);
@@ -24,10 +31,14 @@ const App = () => {
   return (
     <div>
       <SearchStatus
-        length={usersToPerform.length}
+        length={totalLength}
         onQuantityChange={handleDeletionWordRules}
       />
-      <Users users={usersToPerform} />
+      <Users
+        users={usersToPerform}
+        handleDeletion={handleDelete}
+        usersToPerform={usersToPerform}
+      />
     </div>
   );
 };

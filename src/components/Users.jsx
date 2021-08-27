@@ -1,13 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import User from "./user";
 
-const Users = ({ users }) => {
-  const [usersToPerform, setUsersToPerform] = useState(users);
-
-  const handleDelete = (userId) => {
-    setUsersToPerform(usersToPerform.filter((user) => user._id !== userId));
-  };
-
+const Users = ({ users, handleDeletion, usersToPerform }) => {
   return usersToPerform.length > 0 ? (
     <div>
       <table className="table" key="table">
@@ -44,7 +38,7 @@ const Users = ({ users }) => {
               qualities={user.qualities}
               completedMeetings={user.completedMeetings}
               rate={user.rate}
-              onDelete={handleDelete}
+              onDelete={handleDeletion}
             />
           ))}
         </tbody>

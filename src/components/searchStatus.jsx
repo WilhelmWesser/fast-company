@@ -1,19 +1,18 @@
-import React, { useState } from "react";
+import React from "react";
 
 const SearchStatus = ({ length, onQuantityChange }) => {
-  const [usersLength, setUsersLength] = useState(length);
-  const [content, setContent] = useState(onQuantityChange(usersLength));
+  console.log(length);
   return (
     <h2 key="h2">
       <span
         key="message"
         className={
-          onQuantityChange(usersLength).includes("Никто")
+          onQuantityChange(length).includes("Никто")
             ? "badge bg-danger"
             : "badge bg-primary"
         }
       >
-        {content}
+        {onQuantityChange(length)}
       </span>
     </h2>
   );
