@@ -44,6 +44,16 @@ const Users = ({ users: allUsers, handleDeletion }) => {
         setCurrentPage(1);
     }, [selectedProf]);
 
+    // Serialization
+    // const filteredUsers = selectedProf
+    //     ? allUsers.filter(
+    //           (user) =>
+    //               JSON.stringify(user.profession) ===
+    //               JSON.stringify(selectedProf)
+    //       )
+    //     : allUsers;
+
+    // My solution
     const filteredUsers = selectedProf
         ? allUsers.filter((user) => user.profession.name === selectedProf.name)
         : allUsers;
