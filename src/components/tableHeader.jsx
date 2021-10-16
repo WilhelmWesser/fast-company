@@ -1,7 +1,9 @@
-import React from "react";
+/* eslint-disable indent */
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 
 const TableHeader = ({ onSort, selectedSort, columns }) => {
+    const [caretArray, setCaretArray] = useState(columns);
     const handleSort = (item) => {
         if (selectedSort.iter === item) {
             onSort({
@@ -9,25 +11,46 @@ const TableHeader = ({ onSort, selectedSort, columns }) => {
                 // eslint-disable-next-line multiline-ternary
                 order: selectedSort.order === "asc" ? "desc" : "asc"
             });
+            // selectedSort.order === "desc"
+            //         ? "bi bi-caret-down-fill"
+            //         : "bi bi-caret-up-fill"
+            setCaretArray((prevstate) => {
+                const newCaretArr = columns;
+                newCaretArr[
+                    selectedSort.iter === "profession.name"
+                        ? "professions"
+                        : selectedSort.iter
+                ].className =
+                    selectedSort.order === "asc"
+                        ? "bi bi-caret-up-fill"
+                        : "bi bi-caret-down-fill";
+                return newCaretArr;
+            });
         } else {
             onSort({ iter: item, order: "asc" });
         }
     };
+
+    const handleFiltration = (item) => {
+        handleSort(item);
+    };
     return (
         <thead key="thead">
             <tr key="tr">
-                {Object.keys(columns).map((column) => (
+                {Object.keys(caretArray).map((column) => (
                     <th
                         key={column}
                         onClick={
-                            columns[column].path
-                                ? () => handleSort(columns[column].path)
+                            caretArray[column].path
+                                ? () =>
+                                      handleFiltration(caretArray[column].path)
                                 : undefined
                         }
-                        {...{ role: columns[column].path && "button" }}
+                        {...{ role: caretArray[column].path && "button" }}
                         scope="col"
                     >
-                        {columns[column].name}
+                        {caretArray[column].name}
+                        <i className={caretArray[column].className}></i>
                     </th>
                 ))}
 
