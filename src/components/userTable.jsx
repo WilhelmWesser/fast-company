@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import TableHeader from "./tableHeader";
-import TableBody from "./tableBody";
 import Bookmark from "./bookmark";
+import QualitiesList from "./qualitiesList";
+import Table from "./table";
 const UserTable = ({
     users,
     onSort,
@@ -12,7 +12,11 @@ const UserTable = ({
 }) => {
     const columns = {
         name: { path: "name", name: "Имя", className: "" },
-        qualities: { name: "Качества", className: "" },
+        qualities: {
+            name: "Качества",
+            component: (user) => <QualitiesList qualities={user.qualities} />,
+            className: ""
+        },
         professions: {
             path: "profession.name",
             name: "Профессия",
@@ -50,10 +54,12 @@ const UserTable = ({
         className: ""
     };
     return (
-        <table className="table" key="table">
-            <TableHeader {...{ onSort, selectedSort, columns }} />
-            <TableBody {...{ columns, data: users }} />
-        </table>
+        <Table
+            onSort={onSort}
+            selectedSort={selectedSort}
+            columns={columns}
+            data={users}
+        />
     );
 };
 
