@@ -1,56 +1,47 @@
 /* eslint-disable indent */
-import React, { useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 
 const TableHeader = ({ onSort, selectedSort, columns }) => {
-    const [caretArray, setCaretArray] = useState(columns);
     const handleSort = (item) => {
-        if (selectedSort.iter === item) {
+        if (selectedSort.path === item) {
             onSort({
                 ...selectedSort,
                 // eslint-disable-next-line multiline-ternary
                 order: selectedSort.order === "asc" ? "desc" : "asc"
             });
-            // selectedSort.order === "desc"
-            //         ? "bi bi-caret-down-fill"
-            //         : "bi bi-caret-up-fill"
-            setCaretArray((prevstate) => {
-                const newCaretArr = columns;
-                newCaretArr[
-                    selectedSort.iter === "profession.name"
-                        ? "professions"
-                        : selectedSort.iter
-                ].className =
-                    selectedSort.order === "asc"
-                        ? "bi bi-caret-up-fill"
-                        : "bi bi-caret-down-fill";
-                return newCaretArr;
-            });
         } else {
-            onSort({ iter: item, order: "asc" });
+            onSort({ path: item, order: "asc" });
         }
     };
 
-    const handleFiltration = (item) => {
-        handleSort(item);
+    const renderSortArrow = (selectedSort, currentPath) => {
+        if (selectedSort.path === currentPath) {
+            if (selectedSort.order === "asc") {
+                return <i className="bi bi-caret-down-fill"></i>;
+            } else {
+                return <i className="bi bi-caret-up-fill"></i>;
+            }
+        }
+        return null;
     };
+
     return (
         <thead key="thead">
             <tr key="tr">
-                {Object.keys(caretArray).map((column) => (
+                {Object.keys(columns).map((column) => (
                     <th
                         key={column}
                         onClick={
-                            caretArray[column].path
-                                ? () =>
-                                      handleFiltration(caretArray[column].path)
+                            columns[column].path
+                                ? () => handleSort(columns[column].path)
                                 : undefined
                         }
-                        {...{ role: caretArray[column].path && "button" }}
+                        {...{ role: columns[column].path && "button" }}
                         scope="col"
                     >
-                        {caretArray[column].name}
-                        <i className={caretArray[column].className}></i>
+                        {columns[column].name}{" "}
+                        {renderSortArrow(selectedSort, columns[column].path)}
                     </th>
                 ))}
 

@@ -11,23 +11,20 @@ const UserTable = ({
     onDelete
 }) => {
     const columns = {
-        name: { path: "name", name: "Имя", className: "" },
+        name: { path: "name", name: "Имя" },
         qualities: {
             name: "Качества",
-            component: (user) => <QualitiesList qualities={user.qualities} />,
-            className: ""
+            component: (user) => <QualitiesList qualities={user.qualities} />
         },
         professions: {
             path: "profession.name",
-            name: "Профессия",
-            className: ""
+            name: "Профессия"
         },
         completedMeetings: {
             path: "completedMeetings",
-            name: "Встретился, раз",
-            className: ""
+            name: "Встретился, раз"
         },
-        rate: { path: "rate", name: "Оценка", className: "" },
+        rate: { path: "rate", name: "Оценка" },
         bookmark: {
             path: "bookmark",
             name: "Избранное",
@@ -36,8 +33,7 @@ const UserTable = ({
                     status={user.bookmark}
                     onClick={() => onToggleBookmark(user._id)}
                 />
-            ),
-            className: ""
+            )
         },
         delete: {
             component: (user) => (
@@ -50,8 +46,7 @@ const UserTable = ({
                     Delete
                 </button>
             )
-        },
-        className: ""
+        }
     };
     return (
         <Table

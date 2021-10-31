@@ -12,7 +12,7 @@ const Users = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [professions, setProfession] = useState();
     const [selectedProf, setSelectedProf] = useState();
-    const [sortBy, setSortBy] = useState({ iter: "name", order: "asc" });
+    const [sortBy, setSortBy] = useState({ path: "name", order: "asc" });
     const pageSize = 8;
 
     const [users, setUsers] = useState();
@@ -66,7 +66,7 @@ const Users = () => {
         const count = filteredUsers.length;
         const sortedUsers = _.orderBy(
             filteredUsers,
-            [sortBy.iter],
+            [sortBy.path],
             [sortBy.order]
         );
         const usersCrop = paginate(sortedUsers, currentPage, pageSize);
