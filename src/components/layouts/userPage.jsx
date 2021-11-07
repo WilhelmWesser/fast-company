@@ -17,28 +17,30 @@ const UsersPage = ({ id }) => {
             setUser(user);
         });
     }, []);
-    return user ? (
-        <>
-            <h1>{user.name}</h1>
-            <h2>Профессия: {user.profession.name}</h2>
-            {user.qualities.map((quality) => (
-                <Quality {...quality} key={quality._id} />
-            ))}
-            <h4>Completed meetings: {user.completedMeetings}</h4>
-            <h1>Rate: {user.rate}</h1>
-            <button
-                onClick={() => {
-                    handleSave();
-                }}
-            >
-                Все пользователи
-            </button>
-        </>
-    ) : (
-        <h1>Loading...</h1>
-    );
+    if (user) {
+        return (
+            <>
+                <h1>{user.name}</h1>
+                <h2>Профессия: {user.profession.name}</h2>
+                {user.qualities.map((quality) => (
+                    <Quality {...quality} key={quality._id} />
+                ))}
+                <h4>Completed meetings: {user.completedMeetings}</h4>
+                <h1>Rate: {user.rate}</h1>
+                <button
+                    onClick={() => {
+                        handleSave();
+                    }}
+                >
+                    Все пользователи
+                </button>
+            </>
+        );
+    } else {
+        return <h1>Loading...</h1>;
+    }
 };
 UsersPage.propTypes = {
-    id: PropTypes.string
+    id: PropTypes.string.isRequired
 };
 export default UsersPage;

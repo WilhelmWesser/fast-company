@@ -10,7 +10,7 @@ import UserTable from "./userTable";
 import { useParams } from "react-router";
 import _ from "lodash";
 import UsersPage from "./layouts/userPage";
-const Users = () => {
+const UsersList = () => {
     const params = useParams();
     const [currentPage, setCurrentPage] = useState(1);
     const [professions, setProfession] = useState();
@@ -130,4 +130,4 @@ const Users = () => {
     );
 };
 
-export default Users;
+export default UsersList;
