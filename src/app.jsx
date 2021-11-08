@@ -4,7 +4,7 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import Main from "./layouts/main";
 import Login from "./layouts/login";
 import NavBar from "./components/navBar";
-import UsersPage from "./components/layouts/userPage";
+import UsersPage from "./components/userPage";
 
 function App() {
     return (

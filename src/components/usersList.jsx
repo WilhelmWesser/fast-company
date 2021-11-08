@@ -9,7 +9,8 @@ import SearchStatus from "./searchStatus";
 import UserTable from "./userTable";
 import { useParams } from "react-router";
 import _ from "lodash";
-import UsersPage from "./layouts/userPage";
+import UsersPage from "./userPage";
+import SearchBar from "./searchBar";
 const UsersList = () => {
     const params = useParams();
     const [currentPage, setCurrentPage] = useState(1);
@@ -17,11 +18,10 @@ const UsersList = () => {
     const [selectedProf, setSelectedProf] = useState();
     const [sortBy, setSortBy] = useState({ path: "name", order: "asc" });
     const pageSize = 8;
-
     const [users, setUsers] = useState();
+    const [searchValue, setSearchValue] = useState("");
     useEffect(() => {
         api.users.default.fetchAll().then((data) => {
-            console.log(data);
             setUsers(data);
         });
     }, []);
@@ -37,7 +37,6 @@ const UsersList = () => {
                 return user;
             })
         );
-        console.log(id);
     };
 
     useEffect(() => {
@@ -48,17 +47,25 @@ const UsersList = () => {
     }, [selectedProf]);
 
     const handleProfessionSelect = (item) => {
+        setSearchValue("");
+        findByName(searchValue);
         setSelectedProf(item);
     };
 
     const handlePageChange = (pageIndex) => {
         setCurrentPage(pageIndex);
     };
-
+    const findByName = (name) => {
+        setUsers(api.users.default.findByName(name));
+    };
     const handleSort = (item) => {
         setSortBy(item);
     };
-
+    const handleChange = ({ target }) => {
+        setSelectedProf();
+        setSearchValue(target.value);
+        findByName(target.value);
+    };
     if (users) {
         // eslint-disable-next-line multiline-ternary
         const filteredUsers = selectedProf
@@ -102,6 +109,11 @@ const UsersList = () => {
                 )}
                 <div className="d-flex flex-column">
                     <SearchStatus length={count} />
+                    <SearchBar
+                        onFind={findByName}
+                        handleChange={handleChange}
+                        searchValue={searchValue}
+                    />
                     {count > 0 && (
                         <UserTable
                             users={usersCrop}

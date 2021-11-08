@@ -156,7 +156,11 @@ const getById = (id) =>
             resolve(users.find((user) => user._id === id));
         }, 2000);
     });
+const findByName = (name) => {
+    return users.filter((user) => user.name.includes(name));
+};
 export default {
     fetchAll,
-    getById
+    getById,
+    findByName
 };
