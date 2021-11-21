@@ -1,9 +1,9 @@
 /* eslint-disable multiline-ternary */
 import { React, useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import API from "../API";
+import API from "../../../API";
 import { useHistory } from "react-router-dom";
-import Quality from "./quality";
+import Quality from "../../ui/qualities/quality";
 const UsersPage = ({ id }) => {
     const history = useHistory();
     const handleSave = () => {

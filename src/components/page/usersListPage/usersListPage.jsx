@@ -1,16 +1,17 @@
 /* eslint-disable multiline-ternary */
 /* eslint-disable indent */
 import React, { useState, useEffect } from "react";
-import { paginate } from "../utils/paginate";
-import Pagination from "./pagination";
-import api from "../API";
-import GroupList from "./groupList";
-import SearchStatus from "./searchStatus";
-import UserTable from "./userTable";
+import { paginate } from "../../../utils/paginate";
+import Pagination from "../../common/pagination";
+import api from "../../../API";
+import GroupList from "../../common/groupList";
+import SearchStatus from "../../ui/searchStatus";
+import UserTable from "../../ui/userTable";
 import { useParams } from "react-router";
 import _ from "lodash";
-import UsersPage from "./userPage";
-const UsersList = () => {
+import UsersPage from "../userPage/userPage";
+import PropTypes from "prop-types";
+const UsersListPage = () => {
     const params = useParams();
     const [currentPage, setCurrentPage] = useState(1);
     const [professions, setProfession] = useState();
@@ -20,7 +21,7 @@ const UsersList = () => {
     const pageSize = 8;
     const [users, setUsers] = useState();
     useEffect(() => {
-        api.users.default.fetchAll().then((data) => {
+        api.users.fetchAll().then((data) => {
             setUsers(data);
         });
     }, []);
@@ -147,5 +148,8 @@ const UsersList = () => {
         </>
     );
 };
+UsersListPage.propTypes = {
+    users: PropTypes.array
+};
 
-export default UsersList;
+export default UsersListPage;

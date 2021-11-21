@@ -26,7 +26,7 @@ const qualities = {
         color: "info"
     },
     uncertain: {
-        _id: "67rdca3eeb7f6fgeed471102",
+        _id: "67rdca3eeb7f6fgeed471103",
         name: "Неуверенный",
         color: "dark"
     }
@@ -154,13 +154,9 @@ const getById = (id) =>
     new Promise((resolve) => {
         window.setTimeout(function () {
             resolve(users.find((user) => user._id === id));
-        }, 2000);
+        }, 1000);
     });
-const findByName = (name) => {
-    return users.filter((user) => user.name.includes(name));
-};
 export default {
     fetchAll,
-    getById,
-    findByName
+    getById
 };
