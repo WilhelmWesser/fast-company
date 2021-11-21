@@ -10,16 +10,15 @@ import UserTable from "./userTable";
 import { useParams } from "react-router";
 import _ from "lodash";
 import UsersPage from "./userPage";
-import SearchBar from "./searchBar";
 const UsersList = () => {
     const params = useParams();
     const [currentPage, setCurrentPage] = useState(1);
     const [professions, setProfession] = useState();
+    const [searchQuery, setSearchQuery] = useState("");
     const [selectedProf, setSelectedProf] = useState();
     const [sortBy, setSortBy] = useState({ path: "name", order: "asc" });
     const pageSize = 8;
     const [users, setUsers] = useState();
-    const [searchValue, setSearchValue] = useState("");
     useEffect(() => {
         api.users.default.fetchAll().then((data) => {
             setUsers(data);
@@ -42,33 +41,38 @@ const UsersList = () => {
     useEffect(() => {
         api.professions.fetchAll().then((data) => setProfession(data));
     }, []);
+
     useEffect(() => {
         setCurrentPage(1);
     }, [selectedProf]);
 
     const handleProfessionSelect = (item) => {
-        setSearchValue("");
-        findByName(searchValue);
+        if (searchQuery !== "") setSearchQuery("");
         setSelectedProf(item);
+    };
+
+    const handleSearchQuery = ({ target }) => {
+        setSelectedProf(undefined);
+        setSearchQuery(target.value);
     };
 
     const handlePageChange = (pageIndex) => {
         setCurrentPage(pageIndex);
     };
-    const findByName = (name) => {
-        setUsers(api.users.default.findByName(name));
-    };
     const handleSort = (item) => {
         setSortBy(item);
     };
-    const handleChange = ({ target }) => {
-        setSelectedProf();
-        setSearchValue(target.value);
-        findByName(target.value);
-    };
+
     if (users) {
         // eslint-disable-next-line multiline-ternary
-        const filteredUsers = selectedProf
+        const filteredUsers = searchQuery
+            ? users.filter(
+                  (user) =>
+                      user.name
+                          .toLowerCase()
+                          .indexOf(searchQuery.toLowerCase()) !== -1
+              )
+            : selectedProf
             ? users.filter(
                   (user) =>
                       JSON.stringify(user.profession) ===
@@ -109,10 +113,12 @@ const UsersList = () => {
                 )}
                 <div className="d-flex flex-column">
                     <SearchStatus length={count} />
-                    <SearchBar
-                        onFind={findByName}
-                        handleChange={handleChange}
-                        searchValue={searchValue}
+                    <input
+                        type="text"
+                        name="searchQuery"
+                        placeholder="Search..."
+                        onChange={handleSearchQuery}
+                        value={searchQuery}
                     />
                     {count > 0 && (
                         <UserTable
