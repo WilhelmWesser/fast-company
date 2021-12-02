@@ -2,18 +2,16 @@
 import { React, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import API from "../../../API";
-import { useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Quality from "../../ui/qualities/quality";
-const UsersPage = ({ id }) => {
-    const history = useHistory();
-    const handleSave = () => {
-        history.replace("/users");
-    };
+const UserPage = ({ id }) => {
+    // const history = useHistory();
+    // const handleSwitchToEditMode = () => {
+    //     history.replace("/users");
+    // };
     const [user, setUser] = useState();
-    console.log(user);
-
     useEffect(() => {
-        API.users.default.getById(id).then((user) => {
+        API.users.getById(id).then((user) => {
             setUser(user);
         });
     }, []);
@@ -27,20 +25,16 @@ const UsersPage = ({ id }) => {
                 ))}
                 <h4>Completed meetings: {user.completedMeetings}</h4>
                 <h1>Rate: {user.rate}</h1>
-                <button
-                    onClick={() => {
-                        handleSave();
-                    }}
-                >
-                    Все пользователи
-                </button>
+                <Link to={`/users/${user._id}/edit`}>
+                    <button>Изменить</button>
+                </Link>
             </>
         );
     } else {
         return <h1>Loading...</h1>;
     }
 };
-UsersPage.propTypes = {
+UserPage.propTypes = {
     id: PropTypes.string.isRequired
 };
-export default UsersPage;
+export default UserPage;
