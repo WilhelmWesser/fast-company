@@ -72,63 +72,75 @@ const EditPage = () => {
         API.users.update(userId, newData);
         history.replace(`users/${userId}`);
     };
+    const handleGoBack = () => {
+        history.replace(`users/${userId}`);
+    };
     if (user && professionsToChoose && qualities) {
         return (
-            <form onSubmit={handleSave}>
-                <div className="container mt-5">
-                    <div className="row">
-                        <div className="col-md-6 .offset-md-3 shadow p-4">
-                            <TextField
-                                label="Имя"
-                                type="text"
-                                name="name"
-                                value={newData.name}
-                                onChange={handleChange}
-                            />
-                            <TextField
-                                label="Электронная почта"
-                                type="email"
-                                name="email"
-                                value={newData.email}
-                                onChange={handleChange}
-                                error={errors.email}
-                            />
-                            <SelectField
-                                label="Выбери свою профессию"
-                                value={newData.profession.name}
-                                options={professionsToChoose}
-                                onChange={handleChange}
-                                defaultOption={newData.profession.name}
-                            />
-                            <RadioField
-                                options={[
-                                    { name: "Male", value: "male" },
-                                    { name: "Female", value: "female" },
-                                    { name: "Other", value: "Other" }
-                                ]}
-                                value={newData.sex}
-                                name="sex"
-                                onChange={handleChange}
-                                label="Выберите ваш пол"
-                            />
-                            <MultiSelectField
-                                options={qualities}
-                                onChange={handleChange}
-                                name="qualities"
-                                label="Выберите ваши качества"
-                                defaultOptions={newData.qualities}
-                            />
-                            <button
-                                className="btn btn-primary btn-lg btn-block"
-                                type="submit"
-                                disabled={!isValid}
-                            >
-                                Обновить
-                            </button>
+            <>
+                <button
+                    type="button"
+                    className="btn btn-primary m-5"
+                    onClick={handleGoBack}
+                >
+                    ᐊ Назад
+                </button>
+                <form onSubmit={handleSave}>
+                    <div className="container mx-auto">
+                        <div className="row">
+                            <div className="col-md-6 .offset-md-3 shadow p-4">
+                                <TextField
+                                    label="Имя"
+                                    type="text"
+                                    name="name"
+                                    value={newData.name}
+                                    onChange={handleChange}
+                                />
+                                <TextField
+                                    label="Электронная почта"
+                                    type="email"
+                                    name="email"
+                                    value={newData.email}
+                                    onChange={handleChange}
+                                    error={errors.email}
+                                />
+                                <SelectField
+                                    label="Выбери свою профессию"
+                                    value={newData.profession.name}
+                                    options={professionsToChoose}
+                                    onChange={handleChange}
+                                    defaultOption={newData.profession.name}
+                                />
+                                <RadioField
+                                    options={[
+                                        { name: "Male", value: "male" },
+                                        { name: "Female", value: "female" },
+                                        { name: "Other", value: "Other" }
+                                    ]}
+                                    value={newData.sex}
+                                    name="sex"
+                                    onChange={handleChange}
+                                    label="Выберите ваш пол"
+                                />
+                                <MultiSelectField
+                                    options={qualities}
+                                    onChange={handleChange}
+                                    name="qualities"
+                                    label="Выберите ваши качества"
+                                    defaultOptions={newData.qualities}
+                                />
+                                <button
+                                    className="btn btn-primary btn-lg btn-block"
+                                    type="submit"
+                                    disabled={!isValid}
+                                >
+                                    Обновить
+                                </button>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </form>
+                </form>
+            </>
         );
     } else {
         return (

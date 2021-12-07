@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 const SelectField = ({
     label,
+    name,
     value,
     onChange,
     defaultOption,
@@ -29,7 +30,7 @@ const SelectField = ({
             <select
                 className={getInputClasses()}
                 id="validationCustom04"
-                name="profession"
+                name={name || "profession"}
                 value={value}
                 onChange={handleChange}
             >
@@ -49,6 +50,7 @@ const SelectField = ({
 };
 SelectField.propTypes = {
     label: PropTypes.string,
+    name: PropTypes.string,
     value: PropTypes.string,
     onChange: PropTypes.func,
     defaultOption: PropTypes.string,
